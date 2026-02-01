@@ -1,0 +1,112 @@
+meta:
+  engine: 4.1.0
+
+units:
+  kx: cx
+  ky: cy
+  # Define your measurements here
+  switch_hole: 14
+  case_padding: 4 # 4mm extra material around keys
+
+points:
+  zones:
+    # 1. LEFT MODIFIERS
+    sidepad:
+      anchor:
+        shift: [100, -100]
+      columns:
+        outer:
+        inner:
+      rows:
+        mod:
+        bottom:
+        home:
+        top:
+        num:
+
+    # 2. MAIN ALPHA MATRIX
+    matrix:
+      anchor:
+        ref: sidepad_inner_num
+        shift: [1.3kx, -3.9ky]
+      columns:
+        pinky:
+          key.stagger: 0
+        ring:
+          key.stagger: 0.25ky
+        middle:
+          key.stagger: -0.25ky
+        index:
+          key.stagger: 0ky
+      rows:
+        mod:
+        bottom:
+        home:
+        top:
+        num:
+
+    # 3. NAV CLUSTER
+    nav:
+      anchor:
+        ref: matrix_index_num
+        shift: [1.5kx, -3ky]
+      columns:
+        col:
+      rows:
+        top:
+        mid:
+        bot:
+
+    # 4. THUMB CLUSTER
+    thumb:
+      anchor:
+        ref: matrix_middle_mod
+        shift: [2.1kx, -1.2ky]
+        rotate: -40
+      columns:
+        left:
+        right:
+      rows:
+        upper:
+        lower:
+          shift: [0kx, 0.5ky]
+
+outlines:
+  # 1. SWITCH CUTOUTS (The holes for the switches)
+  cutouts:
+    - what: rectangle
+      where: true
+      size: [switch_hole, switch_hole]
+
+  # 2. THE CASE OUTLINE (The PCB shape)
+  # We create this by drawing larger rectangles around keys and merging them
+  board:
+    - what: rectangle
+      where: true
+      operation: stack
+      size: [kx + case_padding, ky + case_padding]
+      fillet: 3
+
+pcbs:
+  main:
+    outlines:
+      main:
+        outline: board
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      diode:
+        what: diode
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -8]
