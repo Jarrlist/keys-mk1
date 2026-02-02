@@ -99,7 +99,49 @@ points:
           shift: [0kx, 0.5ky]
           row_net: P19
 
-  # --- 5. MIRROR (Creates the Right Side) ---
+    # --- 5. MOUNTING HOLES ---
+    mounting_tl:
+      anchor:
+        ref: sidepad_outer_num
+        shift: [-0.6kx, 0.7ky]
+      columns:
+        col:
+          key.skip: true
+      rows:
+        hole:
+          row_net: GND
+    mounting_tr:
+      anchor:
+        ref: matrix_index_num
+        shift: [0.6kx, 0.6ky]
+      columns:
+        col:
+          key.skip: true
+      rows:
+        hole:
+          row_net: GND
+    mounting_bl:
+      anchor:
+        ref: sidepad_outer_mod
+        shift: [-0.6kx, -0.6ky]
+      columns:
+        col:
+          key.skip: true
+      rows:
+        hole:
+          row_net: GND
+    mounting_br:
+      anchor:
+        ref: matrix_index_mod
+        shift: [0.6kx, -0.6ky]
+      columns:
+        col:
+          key.skip: true
+      rows:
+        hole:
+          row_net: GND
+
+  # --- 6. MIRROR (Creates the Right Side) ---
   mirror:
     ref: matrix_index_home # Flip across the index finger
     distance: 200          # Gap between the two halves
@@ -148,6 +190,16 @@ outlines:
       where: true
       size: [switch_hole, switch_hole]
 
+  _mounting_left:
+    - what: circle
+      where: "/^mounting_/"
+      radius: 1.1
+
+  _mounting_right:
+    - what: circle
+      where: "/^mirror_mounting_/"
+      radius: 1.1
+
   _keycaps:
     - what: rectangle
       where: true
@@ -161,12 +213,18 @@ outlines:
     - what: outline
       name: _cutouts
       operation: subtract
+    - what: outline
+      name: _mounting_left
+      operation: subtract
 
   plate_right:
     - what: outline
       name: board_right
     - what: outline
       name: _cutouts
+      operation: subtract
+    - what: outline
+      name: _mounting_right
       operation: subtract
 
   # 6. PREVIEW
@@ -213,7 +271,7 @@ pcbs:
     footprints:
       choc_hotswap:
         what: choc
-        where: "/^(?!mirror_)/"
+        where: "/^sidepad_|^matrix_|^nav_|^thumb_/"
         params:
           keycaps: true
           reverse: true
@@ -222,7 +280,7 @@ pcbs:
           to: "{{colrow}}"
       diode:
         what: diode
-        where: "/^(?!mirror_)/"
+        where: "/^sidepad_|^matrix_|^nav_|^thumb_/"
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
@@ -230,13 +288,36 @@ pcbs:
           shift: [0, -5]
           rotate: 180
       nicenano:
-        what: promicro
+        what: nice_nano_back
         where:
           ref: matrix_index_home
           shift: [1.1kx, 0.5ky]
-          rotate: -90
+          rotate: 90
         params:
           orientation: down
+      jstph:
+        what: jstph
+        where:
+          ref: matrix_index_home
+          shift: [1.1kx, -0.6ky]
+          rotate: 90
+        params:
+            side: B
+            pos: pos
+            neg: GND
+      slider:
+        what: slider
+        where:
+            ref: matrix_index_home
+            shift: [1.6kx, 0.5ky]
+            rotate: 0
+        params:
+            side: B
+            from: pos
+            to: RAW
+      mounting_hole:
+        what: mountinghole
+        where: "/^mounting_/"
 
   # --- RIGHT PCB ---
   right:
@@ -263,10 +344,33 @@ pcbs:
           shift: [0, -5]
           rotate: 180
       nicenano:
-        what: promicro
+        what: nice_nano_back
         where:
           ref: mirror_matrix_index_home
-          shift: [-1.1kx, 0.5ky]
-          rotate: 90
+          shift: [1.1kx, 0.5ky]
+          rotate: -90
         params:
           orientation: down
+      jstph:
+        what: jstph
+        where:
+          ref: mirror_matrix_index_home
+          shift: [1.1kx, -0.6ky]
+          rotate: 90
+        params:
+            side: B
+            pos: pos
+            neg: GND
+      slider:
+        what: slider
+        where:
+            ref: mirror_matrix_index_home
+            shift: [1.6kx, 0.5ky]
+            rotate: 180
+        params:
+            side: B
+            from: pos
+            to: RAW
+      mounting_hole:
+        what: mountinghole
+        where: "/^mirror_mounting_/"

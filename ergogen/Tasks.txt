@@ -1,0 +1,55 @@
+# Project Roadmap: Split Keyboard (Ergogen)
+
+Current Status:
+- [x] Basic layout defined (points)
+- [x] Outlines generated and verified (Left/Right separated correctly)
+- [x] Basic case/plate extrusions generated
+- [x] Automated build pipeline (JSCAD -> STL conversion)
+
+Next Steps (Recommended Order):
+
+## Phase 1: Structural Integrity (Mounting)
+1.  **Define Mounting Points:**
+    *   Determine locations for screw holes (e.g., corners, center).
+    *   Add `mountinghole` footprints to `input.yaml` in the `pcbs` section.
+    *   *Why:* This aligns the PCB with the case. Without this, the PCB floats.
+
+2.  **Design Case Shell (Walls & Bottom):**
+    *   Create a new outline (e.g., `case_outline`) that expands the board outline by ~2-3mm to create walls.
+    *   Define a "bottom" case part in `input.yaml`:
+        *   Extrude the `case_outline` to create the floor and walls.
+        *   Subtract the inner cavity (the original `board` outline).
+    *   Add Standoffs:
+        *   Create cylinders at the mounting hole locations (using `points` references).
+        *   Union these cylinders with the bottom case.
+        *   Subtract screw holes from the standoffs.
+
+## Phase 2: PCB Finalization (KiCad)
+*Note: Ergogen outputs an unrouted PCB. You must finish it in KiCad.*
+
+3.  **Netlist Verification:**
+    *   Ensure all components (switches, diodes, microcontroller, TRRS jacks) are in `input.yaml`.
+    *   Verify `nets` (connections) are logically correct in the config.
+
+4.  **Routing (Manual Step):**
+    *   Open `output/pcbs/*.kicad_pcb` in KiCad.
+    *   Set up design rules (track width, clearance) matches your manufacturer (e.g., JLCPCB).
+    *   Route the traces (draw the wires) connecting the components.
+    *   Add a ground plane (copper pour).
+
+5.  **Design Rule Check (DRC):**
+    *   Run DRC in KiCad to catch disconnected pins or short circuits.
+
+6.  **Manufacturing Output:**
+    *   Generate Gerber files and Drill files in KiCad.
+    *   (Optional) Generate Pick & Place files if doing assembly.
+
+## Phase 3: Prototyping & Polish
+7.  **3D Print Verification:**
+    *   Print the `case_bottom.stl` and `plate.stl`.
+    *   Test fit switches and the microcontroller.
+    *   Verify screw hole alignment with a printed paper template of the PCB.
+
+8.  **Refinement:**
+    *   Adjust tolerances in `input.yaml` (e.g., `kerf` or `fillet`) if parts are too tight/loose.
+    *   Add aesthetic touches (chamfers, logos) to the case.

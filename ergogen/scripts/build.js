@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const OUTPUT_DIR = 'output';
-const INPUT_FILE = 'input.yaml';
+// const INPUT_FILE = 'config.yaml'; // Not needed for directory mode
 
 function runCommand(command) {
     try {
@@ -34,8 +34,8 @@ function findFiles(dir, extension, fileList = []) {
 }
 
 console.log('--- Running Ergogen ---');
-// Using local ergogen executable
-runCommand(`npx ergogen ${INPUT_FILE} -o ${OUTPUT_DIR}`);
+// Using local ergogen executable with directory mode to load local footprints
+runCommand(`npx ergogen . -o ${OUTPUT_DIR}`);
 
 console.log('\n--- Converting JSCAD to STL ---');
 const jscadFiles = findFiles(OUTPUT_DIR, '.jscad');
