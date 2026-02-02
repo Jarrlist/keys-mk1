@@ -7,12 +7,16 @@ units:
   switch_hole: 14
   cap_x: 18
   cap_y: 18
+  spacing: 0.75
 
   # PARAMETERS
   final_wall: 3
   glue_size: 12
 
 points:
+  key:
+    padding: ky + spacing
+    spread: kx + spacing
   zones:
     # --- 1. LEFT MODIFIERS ---
     sidepad:
@@ -100,40 +104,30 @@ points:
           row_net: P19
 
     # --- 5. MOUNTING HOLES ---
-    mounting_tl:
-      anchor:
-        ref: sidepad_outer_num
-        shift: [-0.6kx, 0.7ky]
-      columns:
-        col:
-          key.skip: true
-      rows:
-        hole:
-          row_net: GND
-    mounting_tr:
-      anchor:
-        ref: matrix_index_num
-        shift: [0.6kx, 0.6ky]
-      columns:
-        col:
-          key.skip: true
-      rows:
-        hole:
-          row_net: GND
-    mounting_bl:
-      anchor:
-        ref: sidepad_outer_mod
-        shift: [-0.6kx, -0.6ky]
-      columns:
-        col:
-          key.skip: true
-      rows:
-        hole:
-          row_net: GND
-    mounting_br:
+    mount_thumb:
       anchor:
         ref: matrix_index_mod
-        shift: [0.6kx, -0.6ky]
+        shift: [0.5kx, -0.5ky]
+      columns:
+        col:
+          key.skip: true
+      rows:
+        hole:
+          row_net: GND
+    mount_pinky_top:
+      anchor:
+        ref: sidepad_inner_top
+        shift: [0.65kx, 0]
+      columns:
+        col:
+          key.skip: true
+      rows:
+        hole:
+          row_net: GND
+    mount_pinky_bot:
+      anchor:
+        ref: sidepad_inner_bottom
+        shift: [0.65kx, 0]
       columns:
         col:
           key.skip: true
@@ -192,12 +186,12 @@ outlines:
 
   _mounting_left:
     - what: circle
-      where: "/^mounting_/"
+      where: "/^mount_/"
       radius: 1.1
 
   _mounting_right:
     - what: circle
-      where: "/^mirror_mounting_/"
+      where: "/^mirror_mount_/"
       radius: 1.1
 
   _keycaps:
@@ -317,7 +311,7 @@ pcbs:
             to: RAW
       mounting_hole:
         what: mountinghole
-        where: "/^mounting_/"
+        where: "/^mount_/"
 
   # --- RIGHT PCB ---
   right:
@@ -327,7 +321,7 @@ pcbs:
     footprints:
       choc_hotswap:
         what: choc
-        where: "/^mirror_/"
+        where: "/^mirror_sidepad_|^mirror_matrix_|^mirror_nav_|^mirror_thumb_/"
         params:
           keycaps: true
           reverse: true
@@ -336,7 +330,7 @@ pcbs:
           to: "{{colrow}}"
       diode:
         what: diode
-        where: "/^mirror_/"
+        where: "/^mirror_sidepad_|^mirror_matrix_|^mirror_nav_|^mirror_thumb_/"
         params:
           from: "{{colrow}}"
           to: "{{row_net}}"
@@ -373,4 +367,4 @@ pcbs:
             to: RAW
       mounting_hole:
         what: mountinghole
-        where: "/^mirror_mounting_/"
+        where: "/^mirror_mount_/"

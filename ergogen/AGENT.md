@@ -43,6 +43,9 @@ To use local footprints (in the `./footprints` folder):
 *   **Overrides:** To adjust specific keys, do it *inside* the zone definition or use the generated name references.
 *   **"Defined more than once" Error:** Occurs if you define a top-level key in `points.zones` that conflicts with an automatically generated point name.
     *   *Solution:* Use separate single-point zones (e.g., `mounting_tl`, `mounting_tr`) for disparate items like mounting holes.
+*   **Default Spacing:** Ergogen defaults `padding` and `spread` to `19mm` (MX standard) if not specified.
+    *   *Critical for Choc:* You **must** explicitly set `padding` and `spread`.
+    *   *Current Config:* We use `padding: ky + spacing` and `spread: kx + spacing` (with `spacing: 0.75` in units) to mimic the Caldera keyboard's tight but comfortable layout.
 
 ### Outlines
 *   **Filtering (`where`):** Used to select points for placing shapes.
@@ -53,8 +56,8 @@ To use local footprints (in the `./footprints` folder):
 ### PCBs
 *   **Left vs. Right:**
     *   **Left:** Filter for non-mirrored zones (e.g., `where: "/^sidepad_|^matrix_/"`).
-    *   **Right:** Filter for mirrored zones (`where: "/^mirror_/"`).
-    *   *Note:* Ensure filters are mutually exclusive to avoid components appearing on both PCBs.
+    *   **Right:** Filter for mirrored zones using **explicit regexes** (e.g., `"/^mirror_sidepad_|^mirror_matrix_.../"`).
+    *   *Critical Warning:* Using a broad `/^mirror_/` filter for the Right PCB will capture *everything* starting with mirror, including `mirror_mounting_holes`, causing switches/diodes to be placed on top of screw holes.
 *   **Component Placement:**
     *   **Front:** Standard behavior.
     *   **Back:** Ergogen footprints often don't support a generic `side: B` parameter.
@@ -70,7 +73,7 @@ To use local footprints (in the `./footprints` folder):
 *   **Type:** Split keyboard, unibody logic (separate PCBs, defined as Left/Right).
 *   **Controller:** Nice!Nano v2 (Back-mounted, symmetric placement).
 *   **Power:** JST-PH battery connector and Slider switch added.
-*   **Mounting:** 4 screw holes per side, integrated into PCB and Plate.
+*   **Mounting:** 3 screw holes per side (Thumb intersection, Top/Bottom Pinky gap), integrated into PCB and Plate.
 *   **Output:** Generates clean, separated Left/Right PCBs and STLs for cases/plates.
 
 ## Future Tasks
