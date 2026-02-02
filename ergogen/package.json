@@ -1,0 +1,23 @@
+{
+  "name": "ergogen",
+  "version": "1.0.0",
+  "description": "This is a repository where we are trying to create a custom split keyboard using ergogen.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "ergogen": "^4.2.1"
+  },
+  "dependencies": {
+    "@jscad/cli": "^1.10.0"
+  }
+}
