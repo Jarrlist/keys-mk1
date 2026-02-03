@@ -12,6 +12,9 @@ units:
   # PARAMETERS
   final_wall: 3
   glue_size: 12
+  wall_thick: 2
+  standoff_radius: 2.5
+  insert_radius: 1.6
 
 points:
   key:
@@ -104,36 +107,7 @@ points:
           row_net: P19
 
     # --- 5. MOUNTING HOLES ---
-    mount_thumb:
-      anchor:
-        ref: matrix_index_mod
-        shift: [0.5kx, -0.5ky]
-      columns:
-        col:
-          key.skip: true
-      rows:
-        hole:
-          row_net: GND
-    mount_pinky_top:
-      anchor:
-        ref: sidepad_inner_top
-        shift: [0.65kx, 0]
-      columns:
-        col:
-          key.skip: true
-      rows:
-        hole:
-          row_net: GND
-    mount_pinky_bot:
-      anchor:
-        ref: sidepad_inner_bottom
-        shift: [0.65kx, 0]
-      columns:
-        col:
-          key.skip: true
-      rows:
-        hole:
-          row_net: GND
+    # (Removed zone-based mounting to use explicit footprints/outlines as per FlatFoxBlog)
 
   # --- 6. MIRROR (Creates the Right Side) ---
   mirror:
@@ -178,21 +152,22 @@ outlines:
       expand: -(glue_size - final_wall)
       fillet: 2
 
+  # 3.5 XL BOARDS (For Case Walls)
+  xl_board_left:
+    - what: outline
+      name: board_left
+      expand: wall_thick
+  
+  xl_board_right:
+    - what: outline
+      name: board_right
+      expand: wall_thick
+
   # 4. CUTOUTS & KEYCAPS
   _cutouts:
     - what: rectangle
       where: true
       size: [switch_hole, switch_hole]
-
-  _mounting_left:
-    - what: circle
-      where: "/^mount_/"
-      radius: 1.1
-
-  _mounting_right:
-    - what: circle
-      where: "/^mirror_mount_/"
-      radius: 1.1
 
   _keycaps:
     - what: rectangle
@@ -200,7 +175,97 @@ outlines:
       size: [cap_x, cap_y]
       fillet: 2
 
-  # 5. PLATES
+  # 5. MOUNTING HOLES (For Threaded Inserts)
+  mounting_left:
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: sidepad_inner_home
+        shift: [0.65kx, 1.0ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: sidepad_inner_home
+        shift: [0.65kx, -0.85ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: matrix_index_home
+        shift: [0.75kx, 0.8ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: matrix_index_home
+        shift: [0.75kx, -1.35ky]
+
+  mounting_right:
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: mirror_sidepad_inner_home
+        shift: [0.65kx, 1.0ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: mirror_sidepad_inner_home
+        shift: [0.65kx, -0.85ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: mirror_matrix_index_home
+        shift: [0.75kx, 0.8ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: mirror_matrix_index_home
+        shift: [0.75kx, -1.35ky]
+
+  # 5.5 STANDOFFS (Plastic Bosses)
+  standoff_left:
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: sidepad_inner_home
+        shift: [0.65kx, 1.0ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: sidepad_inner_home
+        shift: [0.65kx, -0.85ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: matrix_index_home
+        shift: [0.75kx, 0.8ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: matrix_index_home
+        shift: [0.75kx, -1.35ky]
+
+  standoff_right:
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: mirror_sidepad_inner_home
+        shift: [0.65kx, 1.0ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: mirror_sidepad_inner_home
+        shift: [0.65kx, -0.85ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: mirror_matrix_index_home
+        shift: [0.75kx, 0.8ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: mirror_matrix_index_home
+        shift: [0.75kx, -1.35ky]
+
+  # 6. PLATES
   plate_left:
     - what: outline
       name: board_left
@@ -208,7 +273,7 @@ outlines:
       name: _cutouts
       operation: subtract
     - what: outline
-      name: _mounting_left
+      name: mounting_left
       operation: subtract
 
   plate_right:
@@ -218,10 +283,10 @@ outlines:
       name: _cutouts
       operation: subtract
     - what: outline
-      name: _mounting_right
+      name: mounting_right
       operation: subtract
 
-  # 6. PREVIEW
+  # 7. PREVIEW
   preview_full:
     - what: outline
       name: board_left
@@ -234,23 +299,81 @@ outlines:
     - what: outline
       name: _cutouts
       operation: stack
+    - what: outline
+      name: mounting_left
+      operation: stack
+    - what: outline
+      name: mounting_right
+      operation: stack
 
 cases:
-  # --- LEFT SIDE ---
-  left_bottom:
+  # --- LEFT COMPONENTS ---
+  _floor_left:
+    - what: outline
+      name: xl_board_left
+      extrude: 2
+
+  _rim_left:
+    - what: outline
+      name: xl_board_left
+      extrude: 8
     - what: outline
       name: board_left
-      extrude: 2
+      extrude: 8
+      operation: subtract
+
+  # --- LEFT FINAL ---
+  left_bottom:
+    - what: outline
+      name: standoff_left
+      extrude: 8
+    - what: outline
+      name: mounting_left
+      extrude: 8
+      operation: subtract
+    - what: case
+      name: _floor_left
+      operation: add
+    - what: case
+      name: _rim_left
+      operation: add
+
   left_plate:
     - what: outline
       name: plate_left
       extrude: 1.5
 
-  # --- RIGHT SIDE ---
-  right_bottom:
+  # --- RIGHT COMPONENTS ---
+  _floor_right:
+    - what: outline
+      name: xl_board_right
+      extrude: 2
+
+  _rim_right:
+    - what: outline
+      name: xl_board_right
+      extrude: 8
     - what: outline
       name: board_right
-      extrude: 2
+      extrude: 8
+      operation: subtract
+
+  # --- RIGHT FINAL ---
+  right_bottom:
+    - what: outline
+      name: standoff_right
+      extrude: 8
+    - what: outline
+      name: mounting_right
+      extrude: 8
+      operation: subtract
+    - what: case
+      name: _floor_right
+      operation: add
+    - what: case
+      name: _rim_right
+      operation: add
+
   right_plate:
     - what: outline
       name: plate_right
@@ -309,9 +432,26 @@ pcbs:
             side: B
             from: pos
             to: RAW
-      mounting_hole:
+      hole_outer_top:
         what: mountinghole
-        where: "/^mount_/"
+        where:
+          ref: sidepad_inner_home
+          shift: [0.65kx, 1.0ky]
+      hole_outer_bot:
+        what: mountinghole
+        where:
+          ref: sidepad_inner_home
+          shift: [0.65kx, -0.85ky]
+      hole_inner_top:
+        what: mountinghole
+        where:
+          ref: matrix_index_home
+          shift: [0.75kx, 0.8ky]
+      hole_inner_bot:
+        what: mountinghole
+        where:
+          ref: matrix_index_home
+          shift: [0.75kx, -1.35ky]
 
   # --- RIGHT PCB ---
   right:
@@ -365,6 +505,23 @@ pcbs:
             side: B
             from: pos
             to: RAW
-      mounting_hole:
+      hole_outer_top:
         what: mountinghole
-        where: "/^mirror_mount_/"
+        where:
+          ref: mirror_sidepad_inner_home
+          shift: [0.65kx, 1.0ky]
+      hole_outer_bot:
+        what: mountinghole
+        where:
+          ref: mirror_sidepad_inner_home
+          shift: [0.65kx, -0.85ky]
+      hole_inner_top:
+        what: mountinghole
+        where:
+          ref: mirror_matrix_index_home
+          shift: [0.75kx, 0.8ky]
+      hole_inner_bot:
+        what: mountinghole
+        where:
+          ref: mirror_matrix_index_home
+          shift: [0.75kx, -1.35ky]
