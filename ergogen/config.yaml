@@ -57,9 +57,17 @@ points:
         middle:
           key.stagger: -0.25ky
           key.column_net: P9
+          rows:
+            mod:
+              # [top right bottom left]
+              bind: [0, 0, 5, 0] # TODO: I am Trying to make the bottom key on the middle finger row
+                                # push the outline out more (towards the bottom, but it is not working)
         index:
           key.stagger: 0ky
           key.column_net: P10
+          rows:
+            mod:
+              bind: [5, 0, 0, 0] # TODO: push outline up here
       rows:
         mod:
           row_net: P2
@@ -82,6 +90,7 @@ points:
           key.column_net: P16
       rows:
         top:
+          bind: [5, 0, 0, 0] # TODO push outline up here.
           row_net: P5
         mid:
           row_net: P4
@@ -140,24 +149,32 @@ outlines:
       expand: glue_size
 
   # 3. THE BOARDS (Visible)
-  board_left:
+  board_left_shape:
     - what: outline
       name: _glue_left
       expand: -(glue_size - final_wall)
-      fillet: 2
 
-  board_right:
+  board_right_shape:
     - what: outline
       name: _glue_right
       expand: -(glue_size - final_wall)
-      fillet: 2
+
+  board_left:
+    - what: outline
+      name: board_left_shape
+      fillet: 1
+
+  board_right:
+    - what: outline
+      name: board_right_shape
+      fillet: 1
 
   # 3.5 XL BOARDS (For Case Walls)
   xl_board_left:
     - what: outline
       name: board_left
       expand: wall_thick
-  
+
   xl_board_right:
     - what: outline
       name: board_right
@@ -408,30 +425,55 @@ pcbs:
         what: nice_nano_back
         where:
           ref: matrix_index_home
-          shift: [1.1kx, 0.5ky]
-          rotate: 90
+          shift: [21.75, -37.42]
+          rotate: 0
         params:
           orientation: down
+          P006: 'P1'
+          P008: 'P0'
+          P017: 'P2'
+          P020: 'P3'
+          P022: 'P4'
+          P024: 'P5'
+          P100: 'P6'
+          P011: 'P7'
+          P104: 'P8'
+          P106: 'P9'
+          P009: 'P10'
+          P010: 'P16'
+          P111: 'P14'
+          P113: 'P15'
+          P115: 'P18'
+          P002: 'P19'
       jstph:
         what: jstph
         where:
           ref: matrix_index_home
-          shift: [1.1kx, -0.6ky]
+          shift: [10.2, -19.8]
           rotate: 90
         params:
-            side: B
+            side: F
             pos: pos
             neg: GND
       slider:
         what: slider
         where:
             ref: matrix_index_home
-            shift: [1.6kx, 0.5ky]
-            rotate: 0
+            shift: [-15.8, -36.9]
+            rotate: 90
         params:
-            side: B
+            side: F
             from: pos
             to: RAW
+      reset:
+        what: EVQPUC
+        where:
+          ref: matrix_index_home
+          shift: [36.9, 0]
+          rotate: 0
+        params:
+          from: GND
+          to: RST
       hole_outer_top:
         what: mountinghole
         where:
@@ -481,16 +523,32 @@ pcbs:
         what: nice_nano_back
         where:
           ref: mirror_matrix_index_home
-          shift: [1.1kx, 0.5ky]
-          rotate: -90
+          shift: [21.75, 37.42]
+          rotate: 180
         params:
           orientation: down
+          P006: 'P1'
+          P008: 'P0'
+          P017: 'P2'
+          P020: 'P3'
+          P022: 'P4'
+          P024: 'P5'
+          P100: 'P6'
+          P011: 'P7'
+          P104: 'P8'
+          P106: 'P9'
+          P009: 'P10'
+          P010: 'P16'
+          P111: 'P14'
+          P113: 'P15'
+          P115: 'P18'
+          P002: 'P19'
       jstph:
         what: jstph
         where:
           ref: mirror_matrix_index_home
-          shift: [1.1kx, -0.6ky]
-          rotate: 90
+          shift: [-10.2, -19.8]
+          rotate: -90
         params:
             side: B
             pos: pos
@@ -499,12 +557,21 @@ pcbs:
         what: slider
         where:
             ref: mirror_matrix_index_home
-            shift: [1.6kx, 0.5ky]
-            rotate: 180
+            shift: [-15.8, 36.9]
+            rotate: 90
         params:
             side: B
             from: pos
             to: RAW
+      reset:
+        what: EVQPUC
+        where:
+          ref: mirror_matrix_index_home
+          shift: [-36.9, 0]
+          rotate: 0
+        params:
+          from: GND
+          to: RST
       hole_outer_top:
         what: mountinghole
         where:
