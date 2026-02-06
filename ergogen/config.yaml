@@ -57,20 +57,22 @@ points:
           rows:
             mod:
               # [top right bottom left]
-              bind: [0, 0, 4.2, 0] # TODO: I am Trying to make the bottom key on the middle finger row
-                                # push the outline out more (towards the bottom, but it is not working)
+              bind: [0, 0, 4.2, 0]
         middle:
           key.stagger: -0.25ky
           key.column_net: P9
           rows:
             num:
-              bind: [4.2, 0, 0, 0] # TODO: push outline up here
+              bind: [4.2, 0, 0, 0]
         index:
           key.stagger: 0ky
           key.column_net: P10
           rows:
+            mod:
+              skip: true
             num:
-              bind: [4.2, 0, 0, 0] # TODO: push outline up here
+              bind: [4.2, 0, 0, 0]
+
       rows:
         mod:
           row_net: P2
@@ -87,7 +89,7 @@ points:
     nav:
       anchor:
         ref: matrix_index_num
-        shift: [1.5kx, -3ky]
+        shift: [1.05kx, -3.1ky]
       columns:
         col:
           key.column_net: P16
@@ -98,15 +100,22 @@ points:
           row_net: P4
         bot:
           row_net: P3
-          bind: [19.7, 0, 0, 8] # TODO: push outline up here
+          bind: [19.7, 0, 0, 8]
 
     # --- 4. THUMB CLUSTER ---
     thumb:
       anchor:
         ref: matrix_middle_mod
-        shift: [2.1kx, -1.2ky]
+        shift: [1.2kx, -0.4ky]
         rotate: -40
       columns:
+        far:
+          key.column_net: P10
+          rows:
+            upper:
+              row_net: P2
+            lower:
+              skip: true
         left:
           key.column_net: P14
         right:
@@ -115,7 +124,7 @@ points:
         upper:
           row_net: P18
         lower:
-          shift: [0kx, 0.5ky]
+          #shift: [0kx, 0.5ky]
           row_net: P19
 
     # --- 5. MOUNTING HOLES ---
@@ -211,16 +220,16 @@ outlines:
       where:
         ref: sidepad_inner_home
         shift: [0.65kx, -0.85ky]
+    # - what: circle
+    #   radius: insert_radius
+    #   where:
+    #     ref: matrix_index_home
+    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: insert_radius
       where:
         ref: matrix_index_home
-        shift: [0.75kx, 0.8ky]
-    - what: circle
-      radius: insert_radius
-      where:
-        ref: matrix_index_home
-        shift: [0.75kx, -1.35ky]
+        shift: [0.8kx, -2.0ky]
 
   mounting_right:
     - what: circle
@@ -233,16 +242,16 @@ outlines:
       where:
         ref: mirror_sidepad_inner_home
         shift: [0.65kx, -0.85ky]
+    # - what: circle
+    #   radius: insert_radius
+    #   where:
+    #     ref: mirror_matrix_index_home
+    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: insert_radius
       where:
         ref: mirror_matrix_index_home
-        shift: [0.75kx, 0.8ky]
-    - what: circle
-      radius: insert_radius
-      where:
-        ref: mirror_matrix_index_home
-        shift: [0.75kx, -1.35ky]
+        shift: [0.8kx, -2.0ky]
 
   # 5.5 STANDOFFS (Plastic Bosses)
   standoff_left:
@@ -256,16 +265,16 @@ outlines:
       where:
         ref: sidepad_inner_home
         shift: [0.65kx, -0.85ky]
+    # - what: circle
+    #   radius: standoff_radius
+    #   where:
+    #     ref: matrix_index_home
+    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: standoff_radius
       where:
         ref: matrix_index_home
-        shift: [0.75kx, 0.8ky]
-    - what: circle
-      radius: standoff_radius
-      where:
-        ref: matrix_index_home
-        shift: [0.75kx, -1.35ky]
+        shift: [0.8kx, -2.2ky]
 
   standoff_right:
     - what: circle
@@ -278,16 +287,16 @@ outlines:
       where:
         ref: mirror_sidepad_inner_home
         shift: [0.65kx, -0.85ky]
+    # - what: circle
+    #   radius: standoff_radius
+    #   where:
+    #     ref: mirror_matrix_index_home
+    #     shift: [0.75kx, 0.8ky]
     - what: circle
-      radius: standoff_radius
+      radius: insert_radius
       where:
         ref: mirror_matrix_index_home
-        shift: [0.75kx, 0.8ky]
-    - what: circle
-      radius: standoff_radius
-      where:
-        ref: mirror_matrix_index_home
-        shift: [0.75kx, -1.35ky]
+        shift: [0.8kx, -2.2ky]
 
   # 6. PLATES
   plate_left:
@@ -426,16 +435,16 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [0, -5]
-          rotate: 180
+          shift: [7.8, -3.5]
+          rotate: 90
       nicenano:
-        what: nice_nano_back
+        what: nice_nano
         where:
           ref: matrix_index_home
           shift: [21.75, -37.42]
           rotate: 0
         params:
-          orientation: down
+          orientation: up
           P006: 'P1'
           P008: 'P0'
           P017: 'P2'
@@ -491,16 +500,16 @@ pcbs:
         where:
           ref: sidepad_inner_home
           shift: [0.65kx, -0.85ky]
-      hole_inner_top:
-        what: mountinghole
-        where:
-          ref: matrix_index_home
-          shift: [0.75kx, 0.8ky]
+      # hole_inner_top:
+      #   what: mountinghole
+      #   where:
+      #     ref: matrix_index_home
+      #     shift: [0.75kx, 0.8ky]
       hole_inner_bot:
         what: mountinghole
         where:
           ref: matrix_index_home
-          shift: [0.75kx, -1.35ky]
+          shift: [0.8kx, -2.2ky]
 
   # --- RIGHT PCB ---
   right:
@@ -524,16 +533,16 @@ pcbs:
           from: "{{colrow}}"
           to: "{{row_net}}"
         adjust:
-          shift: [0, -5]
-          rotate: 180
+          shift: [-7.8, -3.5]
+          rotate: 90
       nicenano:
-        what: nice_nano_back
+        what: nice_nano
         where:
           ref: mirror_matrix_index_home
           shift: [21.75, 37.42]
           rotate: 180
         params:
-          orientation: down
+          orientation: up
           P006: 'P1'
           P008: 'P0'
           P017: 'P2'
@@ -589,13 +598,13 @@ pcbs:
         where:
           ref: mirror_sidepad_inner_home
           shift: [0.65kx, -0.85ky]
-      hole_inner_top:
-        what: mountinghole
-        where:
-          ref: mirror_matrix_index_home
-          shift: [0.75kx, 0.8ky]
+      # hole_inner_top:
+      #   what: mountinghole
+      #   where:
+      #     ref: mirror_matrix_index_home
+      #     shift: [0.75kx, 0.8ky]
       hole_inner_bot:
         what: mountinghole
         where:
           ref: mirror_matrix_index_home
-          shift: [0.75kx, -1.35ky]
+          shift: [0.8kx, -2.2ky]
