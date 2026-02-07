@@ -46,20 +46,24 @@ points:
     matrix:
       anchor:
         ref: sidepad_inner_num
-        shift: [1.3kx, -3.9ky]
+        shift: [1.3kx, -3.7ky]
       columns:
         pinky:
           key.stagger: 0
           key.column_net: P7
+          rows:
+            mod:
+              # [top right bottom left]
+              bind: [0, 0, 1.8, 0]
         ring:
           key.stagger: 0.25ky
           key.column_net: P8
           rows:
             mod:
               # [top right bottom left]
-              bind: [0, 0, 4.2, 0]
+              bind: [0, 0, 6, 0]
         middle:
-          key.stagger: -0.25ky
+          key.stagger: -0.35ky
           key.column_net: P9
           rows:
             num:
@@ -220,16 +224,16 @@ outlines:
       where:
         ref: sidepad_inner_home
         shift: [0.65kx, -0.85ky]
-    # - what: circle
-    #   radius: insert_radius
-    #   where:
-    #     ref: matrix_index_home
-    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: insert_radius
       where:
         ref: matrix_index_home
         shift: [0.8kx, -2.0ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: matrix_index_home
+        shift: [-0.515kx, 1.53ky]
 
   mounting_right:
     - what: circle
@@ -242,16 +246,16 @@ outlines:
       where:
         ref: mirror_sidepad_inner_home
         shift: [0.65kx, -0.85ky]
-    # - what: circle
-    #   radius: insert_radius
-    #   where:
-    #     ref: mirror_matrix_index_home
-    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: insert_radius
       where:
         ref: mirror_matrix_index_home
         shift: [0.8kx, -2.0ky]
+    - what: circle
+      radius: insert_radius
+      where:
+        ref: mirror_matrix_index_home
+        shift: [-0.515kx, 1.53ky]
 
   # 5.5 STANDOFFS (Plastic Bosses)
   standoff_left:
@@ -265,16 +269,16 @@ outlines:
       where:
         ref: sidepad_inner_home
         shift: [0.65kx, -0.85ky]
-    # - what: circle
-    #   radius: standoff_radius
-    #   where:
-    #     ref: matrix_index_home
-    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: standoff_radius
       where:
         ref: matrix_index_home
-        shift: [0.8kx, -2.2ky]
+        shift: [0.8kx, -2.0ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: matrix_index_home
+        shift: [-0.515kx, 1.53ky]
 
   standoff_right:
     - what: circle
@@ -287,16 +291,16 @@ outlines:
       where:
         ref: mirror_sidepad_inner_home
         shift: [0.65kx, -0.85ky]
-    # - what: circle
-    #   radius: standoff_radius
-    #   where:
-    #     ref: mirror_matrix_index_home
-    #     shift: [0.75kx, 0.8ky]
     - what: circle
       radius: insert_radius
       where:
         ref: mirror_matrix_index_home
-        shift: [0.8kx, -2.2ky]
+        shift: [0.8kx, -2.0ky]
+    - what: circle
+      radius: standoff_radius
+      where:
+        ref: mirror_matrix_index_home
+        shift: [-0.515kx, 1.53ky]
 
   # 6. PLATES
   plate_left:
@@ -500,16 +504,17 @@ pcbs:
         where:
           ref: sidepad_inner_home
           shift: [0.65kx, -0.85ky]
-      # hole_inner_top:
-      #   what: mountinghole
-      #   where:
-      #     ref: matrix_index_home
-      #     shift: [0.75kx, 0.8ky]
       hole_inner_bot:
         what: mountinghole
         where:
           ref: matrix_index_home
           shift: [0.8kx, -2.2ky]
+
+      # what: circle
+      # radius: standoff_radius
+      # where:
+      #   ref: mirror_matrix_index_home
+      #   shift: [-0.515kx, 1.53ky]
 
   # --- RIGHT PCB ---
   right:
@@ -598,13 +603,13 @@ pcbs:
         where:
           ref: mirror_sidepad_inner_home
           shift: [0.65kx, -0.85ky]
-      # hole_inner_top:
-      #   what: mountinghole
-      #   where:
-      #     ref: mirror_matrix_index_home
-      #     shift: [0.75kx, 0.8ky]
       hole_inner_bot:
         what: mountinghole
         where:
           ref: mirror_matrix_index_home
           shift: [0.8kx, -2.2ky]
+      # what: circle
+      # radius: standoff_radius
+      # where:
+      #   ref: mirror_matrix_index_home
+      #   shift: [-0.515kx, 1.53ky]
